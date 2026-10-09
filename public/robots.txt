@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Host: https://direct.reconcept.ru
+Sitemap: https://direct.reconcept.ru/sitemap.xml

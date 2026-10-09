@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import landing from '../fragments/landing.html?raw';
+import { SITE } from '../lib/site';
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: SITE.name,
+  url: SITE.url,
+  description: SITE.description,
+  areaServed: { '@type': 'Country', name: 'Россия' },
+  sameAs: [SITE.telegram],
+  makesOffer: [
+    { '@type': 'Offer', name: 'Настройка и ведение Яндекс Директа, один регион', price: '15000', priceCurrency: 'RUB' },
+    { '@type': 'Offer', name: 'Настройка и ведение Яндекс Директа, вся Россия', price: '30000', priceCurrency: 'RUB' },
+  ],
+};
+---
+<Base>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <div class="rule mono" aria-hidden="true">Рис. 1 · Рекламная кампания</div>
+  <Fragment set:html={landing} />
+  <script src="../scripts/landing.ts"></script>
+</Base>
