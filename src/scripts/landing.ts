@@ -1,4 +1,4 @@
-// Анимации рисунков, переключатель РИС 2, формы заявок, FAQ-барабан, липкая кнопка.
+// Анимации рисунков, переключатель РИС 2, FAQ-барабан, липкая кнопка.
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = <T extends Element = HTMLElement>(s: string) => document.querySelector(s) as T;
 const $$ = <T extends Element = HTMLElement>(s: string) => [...document.querySelectorAll(s)] as T[];
@@ -30,68 +30,6 @@ seg.forEach((b) => b.addEventListener('click', () => { userSet = true; clearInte
 if (!still) new IntersectionObserver((e) => {
   if (e[0].isIntersecting && !userSet && !auto) auto = window.setInterval(() => setSt(lk.classList.contains('fixed') ? 'now' : 'fixed'), 4500);
 }, { threshold: 0.4 }).observe(lk);
-
-/* Лид-магнит: текст кнопки */
-const bm = $<HTMLButtonElement>('#b-magnet');
-$$<HTMLInputElement>('input[name=kind]').forEach((r) => r.addEventListener('change', () => { bm.textContent = r.value === 'audit' ? 'Получить аудит' : 'Получить прогноз'; }));
-
-/* SmartCaptcha (невидимая): грузится при первом взаимодействии с формой */
-const captchaKey = document.body.dataset.captcha || '';
-let capReady: Promise<void> | null = null; let widget: number | undefined; let capResolve: ((t: string) => void) | null = null;
-const loadCaptcha = () => {
-  if (!captchaKey) return Promise.resolve();
-  return (capReady ??= new Promise<void>((res, rej) => {
-    (window as any).__capInit = () => {
-      widget = (window as any).smartCaptcha.render($('#captcha'), {
-        sitekey: captchaKey, invisible: true, hideShield: true,
-        callback: (t: string) => { capResolve?.(t); capResolve = null; },
-      });
-      res();
-    };
-    const s = document.createElement('script');
-    s.src = 'https://smartcaptcha.yandexcloud.net/captcha.js?render=onload&onload=__capInit';
-    s.defer = true; s.onerror = () => rej(new Error('captcha')); document.head.appendChild(s);
-  }));
-};
-const getToken = async () => {
-  if (!captchaKey) return '';
-  await loadCaptcha();
-  const sc = (window as any).smartCaptcha;
-  return new Promise<string>((res) => { capResolve = res; sc.reset(widget); sc.execute(widget); });
-};
-
-/* Формы */
-const started = Date.now();
-$$<HTMLFormElement>('form[data-form]').forEach((f) => {
-  f.addEventListener('focusin', () => { loadCaptcha().catch(() => {}); }, { once: true });
-  f.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const inp = f.querySelector('input[name=contact]') as HTMLInputElement;
-    const pd = f.querySelector('input[name=pd]') as HTMLInputElement;
-    const msg = f.querySelector('.msg') as HTMLElement;
-    const btn = f.querySelector('button[type=submit]') as HTMLButtonElement;
-    const v = inp.value.trim();
-    const say = (t: string, ok = false) => { msg.textContent = t; msg.classList.toggle('ok', ok); msg.classList.toggle('err', !ok); };
-    if (v.length < 3) { say('Укажите ваш Telegram или MAX.'); inp.focus(); return; }
-    if (!pd.checked) { say('Отметьте согласие на обработку персональных данных.'); pd.focus(); return; }
-    btn.disabled = true; say('Отправляю…', true);
-    try {
-      const token = await getToken();
-      const kind = (f.querySelector('input[name=kind]:checked') as HTMLInputElement | null)?.value || 'razbor';
-      const r = await fetch('/api/lead', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contact: v, kind, form: f.dataset.form, consent: true, token,
-          website: (f.querySelector('input[name=website]') as HTMLInputElement).value, t: Date.now() - started }),
-      });
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok || !j.ok) throw new Error(j.error || 'send');
-      say('Заявка отправлена. Свяжусь с вами в Telegram или MAX.', true);
-      f.reset(); window.goal?.('lead_' + f.dataset.form); window.goal?.('lead');
-    } catch (err) {
-      say(err instanceof Error && err.message === 'rate' ? 'Слишком много заявок подряд. Попробуйте через несколько минут.' : 'Не получилось отправить. Напишите мне в Telegram или MAX — ссылки внизу страницы.');
-    } finally { btn.disabled = false; }
-  });
-});
 
 /* FAQ — барабан */
 const items = $$<HTMLLIElement>('#drum li');
@@ -131,7 +69,7 @@ drum.addEventListener('touchend', (e) => { if (ty === null) return; const d = e.
 addEventListener('resize', layout);
 show(0, false);
 
-/* Липкая кнопка: видна, когда формы вне экрана */
+/* Липкая кнопка: видна, когда блоки с кнопками связи вне экрана */
 const stick = $('#stick'), vis = new Map<Element, boolean>();
 const io2 = new IntersectionObserver((e) => {
   e.forEach((en) => vis.set(en.target, en.isIntersecting));

@@ -41,7 +41,9 @@ document.getElementById('ck-open')!.addEventListener('click', () => { banner.hid
 // Цели на кнопки и ссылки с data-goal
 document.addEventListener('click', (e) => {
   const el = (e.target as HTMLElement).closest('[data-goal]') as HTMLElement | null;
-  if (el) window.goal(el.dataset.goal!);
+  if (!el) return;
+  window.goal(el.dataset.goal!);
+  if (/^click_(telegram|max|email)$/.test(el.dataset.goal!)) window.goal('contact'); // общая цель для Директа
 });
 
 export {};

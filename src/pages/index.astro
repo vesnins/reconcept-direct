@@ -1,7 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import landing from '../fragments/landing.html?raw';
+import raw from '../fragments/landing.html?raw';
 import { SITE } from '../lib/site';
+
+const landing = raw.replaceAll('{TG}', SITE.telegram).replaceAll('{MAX}', SITE.max).replaceAll('{MAIL}', SITE.email);
 
 const ld = {
   '@context': 'https://schema.org',

@@ -1,12 +1,11 @@
-// Production-сервер: статика (с готовым сжатием br/gzip и заголовками безопасности) + API Astro.
+// Production-сервер: статика с готовым сжатием br/gzip и заголовками безопасности.
 import http from 'node:http';
 import { createReadStream } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import { join, normalize, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { handler } from './dist/server/entry.mjs';
 
-const ROOT = fileURLToPath(new URL('./dist/client/', import.meta.url));
+const ROOT = fileURLToPath(new URL('./dist/', import.meta.url));
 const PORT = Number(process.env.PORT || 4321);
 const HOST = process.env.HOST || '0.0.0.0';
 
@@ -19,12 +18,12 @@ const TYPES = {
 
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yastatic.net https://smartcaptcha.yandexcloud.net",
+  "script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yastatic.net",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://mc.yandex.ru https://mc.yandex.com https://smartcaptcha.yandexcloud.net",
+  "img-src 'self' data: https://mc.yandex.ru https://mc.yandex.com",
   "font-src 'self'",
-  "connect-src 'self' https://mc.yandex.ru https://mc.yandex.com wss://mc.yandex.ru https://smartcaptcha.yandexcloud.net",
-  "frame-src https://mc.yandex.ru https://mc.yandex.com https://smartcaptcha.yandexcloud.net",
+  "connect-src 'self' https://mc.yandex.ru https://mc.yandex.com wss://mc.yandex.ru",
+  "frame-src https://mc.yandex.ru https://mc.yandex.com",
   "frame-ancestors 'self' https://metrika.yandex.ru https://metrica.yandex.com https://*.webvisor.com https://webvisor.com",
   "base-uri 'self'", "form-action 'self'", "object-src 'none'", 'upgrade-insecure-requests',
 ].join('; ');
@@ -91,10 +90,6 @@ http.createServer(async (req, res) => {
       res.writeHead(301, { Location: url.pathname.replace(/\/+$/, '') + url.search }); return res.end();
     }
     if (url.pathname === '/index' || url.pathname === '/index.html') { res.writeHead(301, { Location: '/' }); return res.end(); }
-    if (url.pathname.startsWith('/api/')) {
-      for (const [k, v] of Object.entries(SECURITY)) res.setHeader(k, v);
-      return handler(req, res, () => notFound(res));
-    }
     if (await serveStatic(req, res)) return;
     return notFound(res);
   } catch (e) {

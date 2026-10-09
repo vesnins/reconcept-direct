@@ -3,7 +3,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join, extname } from 'node:path';
 import { brotliCompressSync, gzipSync, constants } from 'node:zlib';
 
-const ROOT = new URL('../dist/client/', import.meta.url).pathname;
+const ROOT = new URL('../dist/', import.meta.url).pathname;
 const EXT = new Set(['.html', '.css', '.js', '.svg', '.json', '.xml', '.txt', '.webmanifest']);
 let n = 0;
 async function walk(dir) {

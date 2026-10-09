@@ -7,7 +7,6 @@ interface Props { title?: string; description?: string; noindex?: boolean }
 const { title = SITE.title, description = SITE.description, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const ymId = import.meta.env.PUBLIC_YM_ID ?? "";
-const capKey = import.meta.env.PUBLIC_SMARTCAPTCHA_KEY ?? "";
 const year = new Date().getFullYear();
 ---
 <!doctype html>
@@ -36,7 +35,7 @@ const year = new Date().getFullYear();
   <meta name="twitter:card" content="summary_large_image">
   <slot name="head" />
 </head>
-<body data-ym={ymId} data-captcha={capKey}>
+<body data-ym={ymId}>
   <div class="wrap">
     <header class="top">
       <a class="logo" href="/" id="top">DIRECT.RECONCEPT</a>
@@ -45,7 +44,7 @@ const year = new Date().getFullYear();
     <slot />
     <footer>
       <div><span class="logo">DIRECT.RECONCEPT</span><p style="margin-top:8px">© {year} · Настройка и ведение Яндекс Директа</p><p>{SITE.operator} · ИНН {SITE.inn} · ОГРНИП {SITE.ogrnip}</p></div>
-      <nav aria-label="Документы"><a href="/policy">Политика обработки персональных данных</a><a href="/consent">Согласие на обработку персональных данных</a><button type="button" class="linkbtn" id="ck-open">Настройки cookie</button></nav>
+      <nav aria-label="Документы"><a href="/policy">Политика обработки персональных данных</a><button type="button" class="linkbtn" id="ck-open">Настройки cookie</button></nav>
       <p class="mono" style="font-size:11px"><a href={SITE.telegram} target="_blank" rel="noopener" data-goal="click_telegram">Telegram</a> · <a href={SITE.max} target="_blank" rel="noopener" data-goal="click_max">MAX</a></p>
     </footer>
   </div>
