@@ -1,4 +1,3 @@
-
 @font-face{font-family:"Departure Mono";src:url(/fonts/DepartureMono.woff2) format("woff2");font-display:swap;font-weight:400;font-style:normal}
 /* Layout: технический справочник — текст Inter, моноширинные подписи, рисунки-чертежи на точечной сетке */
 :root{
@@ -14,7 +13,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:19px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,4vw,40px);padding-block:28px 40px}
 .mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em}
 p{margin:0}
@@ -37,7 +36,7 @@ a{color:var(--blue);text-underline-offset:3px}
 .two.rev{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
 .prose{display:flex;flex-direction:column;gap:16px;max-width:36em}
 .prose .first::first-letter{float:left;font-size:3.1em;line-height:.82;padding:6px 6px 0 0;font-weight:500}
-.small{font-size:15px;color:var(--muted);line-height:1.45}
+.small{font-size:15px;color:var(--ink);line-height:1.45}
 
 /* рисунки */
 span.fig{display:block}
@@ -174,7 +173,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 .toc{display:flex;flex-direction:column;gap:22px}
 .toc h3{font:12px var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 6px;font-weight:400}
 .toc ul{list-style:none;margin:0;padding:0}
-.toc li{display:flex;align-items:baseline;gap:8px;padding:5px 0;font-size:17px}
+.toc li{display:flex;align-items:baseline;gap:8px;padding:5px 0;font-size:16px}
 .toc li::after{content:"";order:2;flex:1;min-width:20px;border-bottom:1px dotted #b5b9c6;transform:translateY(-4px)}
 .toc li span{order:3;font:10.5px var(--mono);color:var(--blue);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
 
@@ -184,8 +183,8 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 .case .fig{padding:16px 14px 10px}
 .case .fig::before,.case .fig::after{display:none}
 .case .meta{font-size:11px;color:var(--muted);margin-bottom:6px}
-.case h3{font-weight:500;font-size:23px;line-height:1.15;margin:0 0 12px}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;font-size:16px;line-height:1.35}
+.case h3{font-weight:500;font-size:23px;line-height:1.15;margin:12px 0 24px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:14px 14px;margin:0;font-size:14px;line-height:1.35}
 .kv dt{font:10.5px/1.9 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 .kv dd{margin:0;font-variant-numeric:tabular-nums}
 .kv dd b{font-weight:600}
@@ -198,7 +197,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 .plan .mono{font-size:11px;color:var(--muted)}
 .plan .price{font-size:36px;font-weight:500;line-height:1;font-variant-numeric:tabular-nums}
 .plan .price small{font-size:17px;font-weight:400}
-.plan .bud{font-size:15px;line-height:1.4;color:var(--muted);border-top:1px dashed var(--tint3);padding-top:10px;margin-top:auto}
+.plan .bud{font-size:15px;line-height:1.4;color:var(--ink);border-top:1px dashed var(--tint3);padding-top:10px;margin-top:auto}
 .terms{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:22px}
 .terms p{font-size:15px;line-height:1.4}
 .terms b{display:block;font:10.5px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--blue);font-weight:400}
@@ -217,7 +216,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 .opt ul{margin:0;padding-left:1.1em;font-size:16px;line-height:1.45}
 .opt .fig{padding:14px 18px 6px;margin-top:4px}
 .opt .fig::before,.opt .fig::after{display:none}
-.magnet form{margin-top:22px}.magnet .row,.magnet .note{max-width:720px}
+.magnet .contact{margin-top:22px}.magnet .row,.magnet .note{max-width:720px}
 
 /* обо мне */
 .spec{display:grid;grid-template-columns:auto 1fr;border-top:1px solid var(--ink);margin:0}
@@ -241,8 +240,8 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 .io{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;padding:18px 22px}
 .io+.io{border-top:1px solid var(--line)}
 .io .k{font:14px/1.6 var(--mono);color:#8a8d99}
-.io .q{font:15px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.04em}
-.io .ans{display:flex;flex-direction:column;gap:12px;font-size:18px;line-height:1.55;min-height:150px;transition:opacity .35s}
+.io .q{font:16px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.04em}
+.io .ans{display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.55;min-height:150px;transition:opacity .35s}
 .sk{display:none;flex-direction:column;gap:12px;padding-top:6px}
 .sk i{display:block;height:12px;background:linear-gradient(90deg,var(--tint1),var(--bg),var(--tint1));background-size:200% 100%;animation:sk 1s linear infinite}
 .sk i:nth-child(2){width:86%}.sk i:nth-child(3){width:64%}
@@ -288,7 +287,7 @@ footer a{color:var(--muted)}
   .faq h2{margin-bottom:14px}
 }
 @media (max-width:560px){
-  body{font-size:18px}
+  body{font-size:16px}
   .nums{grid-template-columns:1fr}
   .nums div+div{padding-left:0;border-left:0;border-top:1px dashed var(--tint3)}
   .fig{padding:18px 18px 12px}
@@ -310,3 +309,9 @@ footer a{color:var(--muted)}
 .legend small{display:block;color:#8a8d99;font-size:10.5px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.caret,.run .dot,.run .chk,.run.leaks .ray,.sk i{animation:none}.drum li{transition:none}}
 
+
+/* РИС — аудит: полосы бюджета и утечки */
+.au .hb{transform-box:fill-box;transform-origin:0 50%;transition:transform .8s cubic-bezier(.65,0,.3,1) var(--d)}
+.au .lk2,.au .pc{transition:opacity .5s var(--d)}
+.pre.au .hb{transform:scaleX(0)}
+.pre.au .lk2,.pre.au .pc{opacity:0}
